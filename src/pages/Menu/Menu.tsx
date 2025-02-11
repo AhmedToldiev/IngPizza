@@ -1,23 +1,49 @@
+import { useEffect, useState } from 'react';
 import Heading from '../../components/Heading/Heading';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import Search from '../../components/Search/Search';
+import { Product } from '../../interfaces/product.interface';
 import styles from './Menu.module.css';
+import { PREFIX } from '../../helpers/API';
 
 export function Menu() {
-	return <>
-		<div className={styles['head']}>
-			<Heading>Меню</Heading>
-			<Search placeholder='Введите блюдо или состав' />
-		</div>
-		<div>
-			<ProductCard
-				id={1}
-				title='Наслаждение'
-				description='Салями, руккола, помидоры, оливки'
-				rating={4.5}
-				price={300}
-				image='/product-demo.png'
-			/>
-		</div>
-	</>;
+	const [products, setProducts] = useState<Product[]>([]);
+
+	const getMenu = async () => {
+		try {
+			const res = await fetch(`${PREFIX}/products`);
+			if (!res.ok) {
+				return;
+			}
+			const data = (await res.json()) as Product[];
+			setProducts(data);
+		} catch (error) {
+			console.error(error);
+			return;
+		}
+	};
+
+	useEffect(() => {
+		getMenu();
+	}, []);
+	return (
+		<>
+			<div className={styles['head']}>
+				<Heading>Меню</Heading>
+				<Search placeholder='Введите блюдо или состав' />
+			</div>
+			<div>
+				{products.map(product => (
+					<ProductCard
+						id={product.id}
+						name={product.name}
+						description={product.ingredients.join(', ')}
+						rating={product.rating}
+						price={product.price}
+						image={product.image}
+					/>
+				))}
+			</div>
+		</>
+	);
 }
