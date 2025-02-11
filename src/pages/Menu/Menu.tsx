@@ -5,17 +5,29 @@ import Search from '../../components/Search/Search';
 import { Product } from '../../interfaces/product.interface';
 import styles from './Menu.module.css';
 import { PREFIX } from '../../helpers/API';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import { MenuList } from './MenuList/MenuList';
 
 export function Menu() {
 	const [products, setProducts] = useState<Product[]>([]);
-
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [error, setError] = useState<string | undefined>('');
 	const getMenu = async () => {
 		try {
+			setIsLoading(true);
+			await new Promise<void>(resolve => {
+				setTimeout(() => {
+					resolve();
+				});
+			});
 			const { data } = await axios.get<Product[]>(`${PREFIX}/products`);
 			setProducts(data);
-		} catch (error) {
-			console.log(error);
+			setIsLoading(false);
+		} catch (e) {
+			console.log(e);
+			if (e instanceof AxiosError) {
+				setError(e.message);
+			}
 			return;
 		}
 		// try {
@@ -41,16 +53,9 @@ export function Menu() {
 				<Search placeholder='Введите блюдо или состав' />
 			</div>
 			<div>
-				{products.map(product => (
-					<ProductCard
-						id={product.id}
-						name={product.name}
-						description={product.ingredients.join(', ')}
-						rating={product.rating}
-						price={product.price}
-						image={product.image}
-					/>
-				))}
+				{error && <>{error}</>}
+				{!isLoading && <MenuList products={products} />}
+				{isLoading && 'Загрузка...'}
 			</div>
 		</>
 	);
