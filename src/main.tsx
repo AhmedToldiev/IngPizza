@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Layout } from './layout/Layout/Layout.tsx';
 import Card from './pages/Card/Card.tsx';
 import Error from './pages/Error/Error.tsx';
-import { Menu } from './pages/Menu/Menu.tsx';
 import { OneProduct } from './pages/Product/Product.tsx';
 import axios from 'axios';
 import { PREFIX } from './helpers/API.ts';
 
+const Menu = lazy(() => import('./pages/Menu/Menu.tsx'));
 const router = createBrowserRouter([
 	{
 		path: '/',
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: '/',
-				element: <Menu />
+				element: <Suspense fallback={<>Загрузка...</>}><Menu /></Suspense>
 			},
 			{
 				path: '/Card',
@@ -26,8 +26,9 @@ const router = createBrowserRouter([
 			{
 				path: '/product/:id',
 				element: <OneProduct />,
+				errorElement: <>Ошибка</>,
 				loader: async ({ params }) => {
-					await new Promise<void>((resolve) => {
+					await new Promise<void>(resolve => {
 						setTimeout(() => {
 							resolve();
 						}, 2000);

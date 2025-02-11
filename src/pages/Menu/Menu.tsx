@@ -7,7 +7,7 @@ import { PREFIX } from '../../helpers/API';
 import axios, { AxiosError } from 'axios';
 import { MenuList } from './MenuList/MenuList';
 
-export function Menu() {
+function Menu() {
 	const [products, setProducts] = useState<Product[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | undefined>('');
@@ -49,8 +49,10 @@ export function Menu() {
 			<div>
 				{error && <>{error}</>}
 				{!isLoading && <MenuList products={products} />}
-				{isLoading && 'Загрузка...'}
+				{isLoading && 'Загрузка пицц...'}
 			</div>
 		</>
 	);
 }
+
+export default Menu;
