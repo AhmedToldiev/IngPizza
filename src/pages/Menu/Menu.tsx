@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Heading from '../../components/Heading/Heading';
-import ProductCard from '../../components/ProductCard/ProductCard';
 import Search from '../../components/Search/Search';
 import { Product } from '../../interfaces/product.interface';
 import styles from './Menu.module.css';
@@ -15,11 +14,6 @@ export function Menu() {
 	const getMenu = async () => {
 		try {
 			setIsLoading(true);
-			await new Promise<void>(resolve => {
-				setTimeout(() => {
-					resolve();
-				});
-			});
 			const { data } = await axios.get<Product[]>(`${PREFIX}/products`);
 			setProducts(data);
 			setIsLoading(false);
