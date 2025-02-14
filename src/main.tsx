@@ -8,6 +8,9 @@ import Error from './pages/Error/Error.tsx';
 import { OneProduct } from './pages/Product/Product.tsx';
 import axios from 'axios';
 import { PREFIX } from './helpers/API.ts';
+import { Login } from './pages/Login/Login.tsx';
+import { Register } from './pages/Register/Register.tsx';
+import { AuthLayout } from './layout/Auth/AuthLayout.tsx';
 
 const Menu = lazy(() => import('./pages/Menu/Menu.tsx'));
 const router = createBrowserRouter([
@@ -17,11 +20,15 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: '/',
-				element: <Suspense fallback={<>Загрузка...</>}><Menu /></Suspense>
+				element: (
+					<Suspense fallback={<>Загрузка...</>}>
+						<Menu />
+					</Suspense>
+				),
 			},
 			{
 				path: '/Card',
-				element: <Card />
+				element: <Card />,
 			},
 			{
 				path: '/product/:id',
@@ -35,14 +42,28 @@ const router = createBrowserRouter([
 					});
 					const { data } = await axios.get(`${PREFIX}/products/${params.id}`);
 					return data;
-				}
-			}
-		]
+				},
+			},
+		],
+	},
+	{
+		path: '/auth',
+		element: <AuthLayout />,
+		children: [
+			{
+				path: 'login',
+				element: <Login />,
+			},
+			{
+				path: 'register',
+				element: <Register />,
+			},
+		],
 	},
 	{
 		path: '*',
-		element: <Error />
-	}
+		element: <Error />,
+	},
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
