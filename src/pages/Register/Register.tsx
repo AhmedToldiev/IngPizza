@@ -56,7 +56,7 @@ export function Register() {
 			<form className={styles['form']} onSubmit={submit}>
 				<div className={styles['field']}>
 					<label htmlFor='email'>Ваш email</label>
-					<Input id='email' name='email' placeholder='Email' required />
+					<Input id='email' name='email' placeholder='Email'  />
 				</div>
 				<div className={styles['field']}>
 					<label htmlFor='password'>Ваш пароль</label>
@@ -65,17 +65,17 @@ export function Register() {
 						name='password'
 						type='password'
 						placeholder='Пароль'
-						required
+						
 					/>
 				</div>
 				<div className={styles['field']}>
 					<label htmlFor='name'>Ваше имя</label>
-					<Input id='name' name='name' placeholder='Имя' required />
+					<Input id='name' name='name' placeholder='Имя'  />
 				</div>
 				<Button appearence='big'>Зарегистрироваться</Button>
 			</form>
 			<div className={styles['links']}>
-				<div>Есть акканут?</div>
+				<div>Есть аккаунт?</div>
 				<Link to='/auth/login'>Войти</Link>
 			</div>
 		</div>

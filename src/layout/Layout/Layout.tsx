@@ -11,10 +11,15 @@ export function Layout() {
 	const dispatch = useDispatch<AppDispatch>();
 	const profile = useSelector((state: RootState) => state.user.profile);
 	const items = useSelector((state: RootState) => state.card.items);
+	const jwt = useSelector((state: RootState) => state.user.jwt);
 
 	useEffect(() => {
-		dispatch(getProfile());
-	}, [dispatch]);
+		if (jwt) {
+			dispatch(getProfile());
+		} else {
+			navigate('/auth/login');
+		}
+	}, [dispatch, navigate]);
 
 	const logout = () => {
 		dispatch(userActions.logout());
