@@ -14,6 +14,7 @@ import { AuthLayout } from './layout/Auth/AuthLayout.tsx';
 import { RequireAuth } from './helpers/RequiredAuth.tsx';
 import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
+import { Success } from './pages/Success/Success.tsx';
 
 const Menu = lazy(() => import('./pages/Menu/Menu.tsx'));
 const router = createBrowserRouter([
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
 						<Menu />
 					</Suspense>
 				),
+			},
+			{
+				path: '/success',
+				element: <Success />
 			},
 			{
 				path: '/Card',

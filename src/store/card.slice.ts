@@ -19,6 +19,9 @@ export const cardSlice = createSlice({
 	name: 'card',
 	initialState,
 	reducers: {
+		clean: (state) => {
+			state.items = [];
+		},
 		delete: (state, action: PayloadAction<number>) => {
 			state.items = state.items.filter(i => i.id !== action.payload);
 		},
