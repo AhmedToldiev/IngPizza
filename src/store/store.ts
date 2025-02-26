@@ -10,10 +10,8 @@ export const store = configureStore({
 	},
 });
 store.subscribe(() => {
-	const jwt = store.getState().user.jwt || '';
-	const card = store.getState().card.items || [];
-	saveState(jwt, JWT_PERSISTENT_STATE);
-	saveState(JSON.stringify(card), CARD_PERSISTENT_STATE);
+	saveState({ jwt: store.getState().user.jwt }, JWT_PERSISTENT_STATE);
+	saveState(store.getState().card, CARD_PERSISTENT_STATE);
 });
 
 export type RootState = ReturnType<typeof store.getState>;

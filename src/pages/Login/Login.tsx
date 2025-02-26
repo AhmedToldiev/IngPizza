@@ -7,6 +7,7 @@ import Heading from '../../components/Heading/Heading';
 import { AppDispatch, RootState } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, userActions } from '../../store/user.slice';
+import { cardActions } from '../../store/card.slice';
 
 export type LoginForm = {
 	email: {
@@ -27,8 +28,9 @@ export function Login() {
 	useEffect(() => {
 		if (jwt) {
 			navigate('/');
+			dispatch(cardActions.clean());
 		}
-	}, [jwt, navigate]);
+	}, [jwt, navigate, dispatch]);
 
 	const submit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -45,7 +47,9 @@ export function Login() {
 	return (
 		<div className={styles['login']}>
 			<Heading>Вход</Heading>
-			{loginErrorMessage && <div className={styles['error']}>{loginErrorMessage}</div>}
+			{loginErrorMessage && (
+				<div className={styles['error']}>{loginErrorMessage}</div>
+			)}
 			<form className={styles['form']} onSubmit={submit}>
 				<div className={styles['field']}>
 					<label htmlFor='email'>Ваш email</label>

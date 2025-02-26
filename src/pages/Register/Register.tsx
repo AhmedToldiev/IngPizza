@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { register, userActions } from '../../store/user.slice';
 import { AppDispatch, RootState } from '../../store/store';
 import Heading from '../../components/Heading/Heading';
+import { cardActions } from '../../store/card.slice';
 
 export type RegisterForm = {
 	email: {
@@ -30,6 +31,7 @@ export function Register() {
 	useEffect(() => {
 		if (jwt) {
 			navigate('/');
+			dispatch(cardActions.clean());
 		}
 	}, [jwt, navigate]);
 
@@ -70,7 +72,7 @@ export function Register() {
 				</div>
 				<div className={styles['field']}>
 					<label htmlFor='name'>Ваше имя</label>
-					<Input id='name' name='name' placeholder='Имя'  />
+					<Input id='name' name='name' placeholder='Имя' required  />
 				</div>
 				<Button appearence='big'>Зарегистрироваться</Button>
 			</form>

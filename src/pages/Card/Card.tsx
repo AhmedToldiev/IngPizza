@@ -13,8 +13,8 @@ import { cardActions } from '../../store/card.slice';
 
 const DELIVERY_FEE = 169;
 
-export default function Cart() {
-	const [cartProducts, setCardProducts] = useState<Product[]>([]);
+export default function Card() {
+	const [cardProducts, setCardProducts] = useState<Product[]>([]);
 	const items = useSelector((state: RootState) => state.card.items);
 	const jwt = useSelector((state: RootState) => state.user.jwt);
 	const dispatch = useDispatch<AppDispatch>();
@@ -22,7 +22,7 @@ export default function Cart() {
 
 	const total = items
 		.map(i => {
-			const product = cartProducts.find(p => p.id === i.id);
+			const product = cardProducts.find(p => p.id === i.id);
 			if (!product) {
 				return 0;
 			}
@@ -60,7 +60,7 @@ export default function Cart() {
 		<>
 			<Heading className={styles['heading']}>Корзина</Heading>
 			{items.map(i => {
-				const product = cartProducts.find(p => p.id === i.id);
+				const product = cardProducts.find(p => p.id === i.id);
 				if (!product) {
 					return;
 				}
